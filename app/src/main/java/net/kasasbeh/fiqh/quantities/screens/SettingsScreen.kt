@@ -3,6 +3,7 @@ package net.kasasbeh.fiqh.quantities.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -48,33 +49,35 @@ object SettingsScreen : Screen, KoinComponent, WithTopAppBar {
         Column(
             verticalArrangement = Arrangement.Center
         ) {
-            Row(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier.padding(10.dp),
-                    text = stringResource(R.string.dark_theme)
-                )
-                ThemeSwitch()
-            }
+            LabeledSetting(
+                label = stringResource(R.string.dark_theme),
+                content = { ThemeSwitch() }
+            )
 
-            Row(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier.padding(10.dp),
-                    text = stringResource(R.string.school)
-                )
-                SchoolDropDownMenu()
-            }
+            LabeledSetting(
+                label = stringResource(R.string.school),
+                content = { SchoolDropDownMenu() }
+            )
+        }
+    }
+
+    @Composable
+    private fun LabeledSetting(
+        label: String,
+        content: @Composable RowScope.() -> Unit
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.padding(10.dp),
+                text = label
+            )
+            content()
         }
     }
 
