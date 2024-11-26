@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">الكميات الفقهية</string>
+    <string name="hanbali">حنبلي</string>
+    <string name="shafii">شافعي</string>
+    <string name="maliki">مالكي</string>
+    <string name="hanafi">حنفي</string>
+    <string name="settings">الإعددادات</string>
+    <string name="school">المذهب</string>
+    <string name="dark_theme">الوضع الليلي</string>
+</resources>

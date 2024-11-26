@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">FiqhQuantities</string>
+    <string name="hanbali">Hanbali</string>
+    <string name="shafii">Shafi\'i</string>
+    <string name="maliki">Maliki</string>
+    <string name="hanafi">Hanafi</string>
+    <string name="settings">Settings</string>
+    <string name="school">School (Maddhab)</string>
+    <string name="dark_theme">Dark Theme</string>
 </resources>

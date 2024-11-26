@@ -1,52 +1,38 @@
-package com.example.ui.theme
+package net.kasasbeh.fiqh.quantities.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import net.kasasbeh.fiqh.quantities.R
 
-import androidx.compose.ui.text.googlefonts.GoogleFont
-import androidx.compose.ui.text.googlefonts.Font
-
-val provider = GoogleFont.Provider(
-    providerAuthority = "com.google.android.gms.fonts",
-    providerPackage = "com.google.android.gms",
-    certificates = R.array.com_google_android_gms_fonts_certs
-)
-
-val bodyFontFamily = FontFamily(
-    Font(
-        googleFont = GoogleFont("Roboto"),
-        fontProvider = provider,
-    )
-)
-
-val displayFontFamily = FontFamily(
-    Font(
-        googleFont = GoogleFont("Inter"),
-        fontProvider = provider,
-    )
+val ReadexPro = FontFamily(
+    Font(R.font.readexpro_bold, FontWeight.Bold),
+    Font(R.font.readexpro_semibold, FontWeight.SemiBold),
+    Font(R.font.readexpro_medium, FontWeight.Medium),
+    Font(R.font.readexpro_regular, FontWeight.Normal),
+    Font(R.font.readexpro_light, FontWeight.Light),
+    Font(R.font.readexpro_extralight, FontWeight.ExtraLight),
 )
 
 // Default Material 3 typography values
 val baseline = Typography()
 
 val AppTypography = Typography(
-    displayLarge = baseline.displayLarge.copy(fontFamily = displayFontFamily),
-    displayMedium = baseline.displayMedium.copy(fontFamily = displayFontFamily),
-    displaySmall = baseline.displaySmall.copy(fontFamily = displayFontFamily),
-    headlineLarge = baseline.headlineLarge.copy(fontFamily = displayFontFamily),
-    headlineMedium = baseline.headlineMedium.copy(fontFamily = displayFontFamily),
-    headlineSmall = baseline.headlineSmall.copy(fontFamily = displayFontFamily),
-    titleLarge = baseline.titleLarge.copy(fontFamily = displayFontFamily),
-    titleMedium = baseline.titleMedium.copy(fontFamily = displayFontFamily),
-    titleSmall = baseline.titleSmall.copy(fontFamily = displayFontFamily),
-    bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFontFamily),
-    bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFontFamily),
-    bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily),
-    labelLarge = baseline.labelLarge.copy(fontFamily = bodyFontFamily),
-    labelMedium = baseline.labelMedium.copy(fontFamily = bodyFontFamily),
-    labelSmall = baseline.labelSmall.copy(fontFamily = bodyFontFamily),
+    displayLarge = baseline.displayLarge.copy(fontFamily = ReadexPro),
+    displayMedium = baseline.displayMedium.copy(fontFamily = ReadexPro),
+    displaySmall = baseline.displaySmall.copy(fontFamily = ReadexPro),
+    headlineLarge = baseline.headlineLarge.copy(fontFamily = ReadexPro),
+    headlineMedium = baseline.headlineMedium.copy(fontFamily = ReadexPro),
+    headlineSmall = baseline.headlineSmall.copy(fontFamily = ReadexPro),
+    titleLarge = baseline.titleLarge.copy(fontFamily = ReadexPro),
+    titleMedium = baseline.titleMedium.copy(fontFamily = ReadexPro),
+    titleSmall = baseline.titleSmall.copy(fontFamily = ReadexPro),
+    bodyLarge = baseline.bodyLarge.copy(fontFamily = ReadexPro),
+    bodyMedium = baseline.bodyMedium.copy(fontFamily = ReadexPro),
+    bodySmall = baseline.bodySmall.copy(fontFamily = ReadexPro),
+    labelLarge = baseline.labelLarge.copy(fontFamily = ReadexPro),
+    labelMedium = baseline.labelMedium.copy(fontFamily = ReadexPro),
+    labelSmall = baseline.labelSmall.copy(fontFamily = ReadexPro),
 )
 
