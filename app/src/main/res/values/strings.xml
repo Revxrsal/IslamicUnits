@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FiqhQuantities</string>
+    <string name="app_name">Fiqh Quantities</string>
     <string name="hanbali">Hanbali</string>
     <string name="shafii">Shafi\'i</string>
     <string name="maliki">Maliki</string>
