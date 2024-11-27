@@ -47,7 +47,7 @@ object SettingsScreen : Screen, KoinComponent, WithTopAppBar {
     @Composable
     override fun Content() {
         Column(
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier.padding(10.dp)
         ) {
             LabeledSetting(
                 label = stringResource(R.string.dark_theme),
@@ -68,7 +68,6 @@ object SettingsScreen : Screen, KoinComponent, WithTopAppBar {
     ) {
         Row(
             modifier = Modifier
-                .padding(10.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
