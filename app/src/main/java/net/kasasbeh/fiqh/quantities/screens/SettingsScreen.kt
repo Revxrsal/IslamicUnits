@@ -127,8 +127,8 @@ object SettingsScreen : Screen, KoinComponent, WithTopAppBar {
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun ScreenTopAppBar() {
         val navigator = LocalNavigator.currentOrThrow
         TopAppBar(
