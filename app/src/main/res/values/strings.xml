@@ -7,4 +7,12 @@
     <string name="settings">Settings</string>
     <string name="school">School (Maddhab)</string>
     <string name="dark_theme">Dark Theme</string>
+    <string name="gram">Gram</string>
+    <string name="kilogram">Kilogram</string>
+    <string name="qirat">Qirat</string>
+    <string name="uqiyyah">Uqiyyah</string>
+    <string name="saa">Saa\'</string>
+    <string name="ratl">Ratl</string>
+    <string name="wasq">Wasq</string>
+    <string name="mudd">Mudd</string>
 </resources>

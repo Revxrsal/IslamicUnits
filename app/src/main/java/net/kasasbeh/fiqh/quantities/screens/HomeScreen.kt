@@ -10,26 +10,34 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import net.kasasbeh.fiqh.quantities.R
+import net.kasasbeh.fiqh.quantities.icons.Food
+import net.kasasbeh.fiqh.quantities.icons.Landscape
+import net.kasasbeh.fiqh.quantities.icons.Money
+import net.kasasbeh.fiqh.quantities.icons.Ruler
+import net.kasasbeh.fiqh.quantities.icons.Volume
 import net.kasasbeh.fiqh.quantities.icons.Weight
 
 object HomeScreen : Screen, WithTopAppBar {
@@ -37,83 +45,35 @@ object HomeScreen : Screen, WithTopAppBar {
     @Composable
     override fun Content() {
         val scrollState = rememberScrollState()
+        val search = remember { mutableStateOf("") }
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
+                .padding(horizontal = 10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Category("Weights") {
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
+            OutlinedTextField(
+                value = search.value,
+                onValueChange = { search.value = it },
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(),
+                label = { Text("Search for units") },
+                leadingIcon = { Icon(Icons.Filled.Search, "Search") }
+            )
+            Section {
+                UnitCategory("Weight", Weight) { ConverterScreen() }
+                UnitCategory("Volume", Volume) { ConverterScreen() }
             }
-            Category("Weights") {
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
+            Section {
+                UnitCategory("Distance", Ruler) { ConverterScreen() }
+                UnitCategory("Area", Landscape) { ConverterScreen() }
             }
-            Category("Weights") {
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
+            Section {
+                UnitCategory("Money", Money) { ConverterScreen() }
+                UnitCategory("Food", Food) { ConverterScreen() }
             }
-            Category("Weights") {
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-            }
-            Category("Weights") {
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-                Section {
-                    Quantity()
-                    Quantity()
-                }
-            }
-
-            HorizontalDivider(thickness = 1.dp, modifier = Modifier.padding(5.dp))
         }
     }
 
@@ -121,7 +81,7 @@ object HomeScreen : Screen, WithTopAppBar {
     private fun Section(content: @Composable RowScope.() -> Unit) {
         Row(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(vertical = 10.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
@@ -131,34 +91,20 @@ object HomeScreen : Screen, WithTopAppBar {
     }
 
     @Composable
-    private fun Category(
+    fun RowScope.UnitCategory(
         title: String,
-        content: @Composable () -> Unit = {}
+        icon: ImageVector,
+        targetScreen: () -> Screen
     ) {
-        Column(
-            modifier = Modifier.padding(10.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = title,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth()
-            )
-            content()
-        }
-    }
-
-    @Composable
-    fun RowScope.Quantity() {
+        val navigator = LocalNavigator.currentOrThrow
         Card(
             elevation = CardDefaults.elevatedCardElevation(
                 defaultElevation = 3.dp,
             ),
-            onClick = { },
-            modifier = Modifier.padding(10.dp).weight(1f),
+            onClick = { navigator.push(targetScreen()) },
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .weight(1f)
         ) {
             Column(
                 modifier = Modifier
@@ -168,12 +114,12 @@ object HomeScreen : Screen, WithTopAppBar {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    imageVector = Weight,
-                    contentDescription = "Weight",
+                    imageVector = icon,
+                    contentDescription = title,
                     modifier = Modifier.padding(10.dp)
                 )
                 Text(
-                    text = "Weight",
+                    text = title,
                     modifier = Modifier
                         .padding(bottom = 10.dp)
                         .fillMaxWidth(),
