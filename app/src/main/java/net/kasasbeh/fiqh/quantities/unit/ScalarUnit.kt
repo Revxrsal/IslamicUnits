@@ -48,8 +48,8 @@ class ScalarUnit<U : ConvertableUnit<U>>(
     )
 
     fun convert(to: ScalarUnit<U>, school: School, value: Double): Double {
-        val primary = to.toPrimaryUnit(school, value)
-        return fromPrimaryUnit(school, primary)
+        val primary = toPrimaryUnit(school, value)
+        return to.fromPrimaryUnit(school, primary)
     }
 
     fun toPrimaryUnit(school: School, quantity: Double): Double {
