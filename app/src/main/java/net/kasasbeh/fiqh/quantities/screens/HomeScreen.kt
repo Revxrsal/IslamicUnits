@@ -39,6 +39,8 @@ import net.kasasbeh.fiqh.quantities.icons.Money
 import net.kasasbeh.fiqh.quantities.icons.Ruler
 import net.kasasbeh.fiqh.quantities.icons.Volume
 import net.kasasbeh.fiqh.quantities.icons.Weight
+import net.kasasbeh.fiqh.quantities.unit.WeightConverter
+import net.kasasbeh.fiqh.quantities.unit.WeightUnit
 
 object HomeScreen : Screen, WithTopAppBar {
 
@@ -63,16 +65,46 @@ object HomeScreen : Screen, WithTopAppBar {
                 leadingIcon = { Icon(Icons.Filled.Search, "Search") }
             )
             Section {
-                UnitCategory("Weight", Weight) { ConverterScreen() }
-                UnitCategory("Volume", Volume) { ConverterScreen() }
+                UnitCategory("Weight", Weight) {
+                    ConverterScreen(
+                        converter = WeightConverter,
+                        units = WeightUnit.entries
+                    )
+                }
+                UnitCategory("Volume", Volume) {
+                    ConverterScreen(
+                        converter = WeightConverter,
+                        units = WeightUnit.entries
+                    )
+                }
             }
             Section {
-                UnitCategory("Distance", Ruler) { ConverterScreen() }
-                UnitCategory("Area", Landscape) { ConverterScreen() }
+                UnitCategory("Distance", Ruler) {
+                    ConverterScreen(
+                        converter = WeightConverter,
+                        units = WeightUnit.entries
+                    )
+                }
+                UnitCategory("Area", Landscape) {
+                    ConverterScreen(
+                        converter = WeightConverter,
+                        units = WeightUnit.entries
+                    )
+                }
             }
             Section {
-                UnitCategory("Money", Money) { ConverterScreen() }
-                UnitCategory("Food", Food) { ConverterScreen() }
+                UnitCategory("Money", Money) {
+                    ConverterScreen(
+                        converter = WeightConverter,
+                        units = WeightUnit.entries
+                    )
+                }
+                UnitCategory("Food", Food) {
+                    ConverterScreen(
+                        converter = WeightConverter,
+                        units = WeightUnit.entries
+                    )
+                }
             }
         }
     }
