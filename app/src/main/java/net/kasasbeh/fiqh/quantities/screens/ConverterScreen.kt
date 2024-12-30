@@ -45,6 +45,7 @@ import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
 
 class ConverterScreen<U : ConvertableUnit<U>>(
+    private val title: String,
     private val units: List<ScalarUnit<U>>,
 ) : Screen, WithTopAppBar, KoinComponent {
 
@@ -55,7 +56,7 @@ class ConverterScreen<U : ConvertableUnit<U>>(
     @Composable
     override fun Content() {
         val repository: DataStoreRepository = koinInject()
-        val school by repository.school.collectAsState(School.HANBALI)
+        val school = repository.school.collectAsState(School.HANBALI)
         val state = rememberConverterState(
             school = school,
             units = units
@@ -201,7 +202,7 @@ class ConverterScreen<U : ConvertableUnit<U>>(
     @OptIn(ExperimentalMaterial3Api::class)
     override fun ScreenTopAppBar() {
         val navigator = LocalNavigator.currentOrThrow
-        TopAppBar(title = { Text("Weights") }, navigationIcon = {
+        TopAppBar(title = { Text(title) }, navigationIcon = {
             IconButton(onClick = { navigator.push(HomeScreen) }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Default.ArrowBack,

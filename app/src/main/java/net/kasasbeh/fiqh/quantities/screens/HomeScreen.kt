@@ -69,41 +69,44 @@ object HomeScreen : Screen, WithTopAppBar {
                 leadingIcon = { Icon(Icons.Filled.Search, "Search") }
             )
             Section {
-                UnitCategory("Weight", Weight) {
+                UnitCategory(stringResource(R.string.weight), Weight) {
                     ConverterScreen(
-                        units = WeightUnit.units
+                        units = WeightUnit.units,
+                        title = it
                     )
                 }
-                UnitCategory("Volume", Volume) {
+                UnitCategory(stringResource(R.string.volume), Volume) {
                     ConverterScreen(
-                        units = VolumeUnit.units
-                    )
-                }
-            }
-            Section {
-                UnitCategory("Distance", Ruler) {
-                    ConverterScreen(
-                        units = DistanceUnit.units
-                    )
-                }
-                UnitCategory("Area", Landscape) {
-                    ConverterScreen(
-                        units = AreaUnit.units
+                        units = VolumeUnit.units,
+                        title = it
                     )
                 }
             }
             Section {
-                UnitCategory("Money", Money) {
+                UnitCategory(stringResource(R.string.distance), Ruler) {
                     ConverterScreen(
-                        units = MoneyUnit.units
+                        units = DistanceUnit.units,
+                        title = it
                     )
                 }
-                UnitCategory("Food", Food) {
-                    ConverterScreen(
-                        units = FoodUnit.units
-                    )
-                }
+//                UnitCategory("Area", Landscape) {
+//                    ConverterScreen(
+//                        units = AreaUnit.units
+//                    )
+//                }
             }
+//            Section {
+//                UnitCategory("Money", Money) {
+//                    ConverterScreen(
+//                        units = MoneyUnit.units
+//                    )
+//                }
+//                UnitCategory("Food", Food) {
+//                    ConverterScreen(
+//                        units = FoodUnit.units
+//                    )
+//                }
+//            }
         }
     }
 
@@ -124,14 +127,14 @@ object HomeScreen : Screen, WithTopAppBar {
     fun RowScope.UnitCategory(
         title: String,
         icon: ImageVector,
-        targetScreen: () -> Screen
+        targetScreen: (title: String) -> Screen
     ) {
         val navigator = LocalNavigator.currentOrThrow
         Card(
             elevation = CardDefaults.elevatedCardElevation(
                 defaultElevation = 3.dp,
             ),
-            onClick = { navigator.push(targetScreen()) },
+            onClick = { navigator.push(targetScreen(title)) },
             modifier = Modifier
                 .padding(horizontal = 10.dp)
                 .weight(1f)

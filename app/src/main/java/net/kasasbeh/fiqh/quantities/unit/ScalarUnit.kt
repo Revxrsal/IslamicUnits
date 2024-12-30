@@ -7,10 +7,6 @@ import androidx.compose.ui.platform.LocalContext
 import net.kasasbeh.fiqh.quantities.data.School
 import net.kasasbeh.fiqh.quantities.data.schools
 
-interface ConvertableUnit<U : ConvertableUnit<U>> {
-    val units: List<ScalarUnit<U>>
-}
-
 class ScalarUnit<U : ConvertableUnit<U>>(
     @StringRes private val nameRes: Int,
     private val values: Map<School, Double>,

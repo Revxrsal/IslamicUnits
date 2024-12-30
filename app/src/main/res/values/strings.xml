@@ -12,7 +12,23 @@
     <string name="qirat">Qirat</string>
     <string name="uqiyyah">Uqiyyah</string>
     <string name="saa">Saa\'</string>
-    <string name="ratl">Ratl</string>
+    <string name="ritl">Ratl</string>
     <string name="wasq">Wasq</string>
     <string name="mudd">Mudd</string>
+    <string name="mithqal">Mithqal</string>
+    <string name="dirham">Dirham</string>
+    <string name="qullah">Qullah</string>
+    <string name="litre">Litre</string>
+    <string name="metre">Metre</string>
+    <string name="thiraa">Dira\'</string>
+    <string name="finger">Finger</string>
+    <string name="bareed">Bareed</string>
+    <string name="farsakh">Farsakh</string>
+    <string name="meel">Meel (Arabic unit)</string>
+    <string name="kilometre">Kilometre</string>
+    <string name="millilitre">Millilitre</string>
+    <string name="mile">Mile</string>
+    <string name="weight">Weight</string>
+    <string name="volume">Volume</string>
+    <string name="distance">Distance</string>
 </resources>

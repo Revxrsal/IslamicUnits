@@ -9,7 +9,7 @@ object MoneyUnit : ConvertableUnit<MoneyUnit> {
         ScalarUnit(0.212, R.string.qirat),
         ScalarUnit(119.0, R.string.uqiyyah),
         ScalarUnit(2035.0, R.string.saa),
-        ScalarUnit(450.0, R.string.ratl),
+        ScalarUnit(450.0, R.string.ritl),
         ScalarUnit(122100.0, R.string.wasq),
         ScalarUnit(508.75, R.string.mudd),
     )

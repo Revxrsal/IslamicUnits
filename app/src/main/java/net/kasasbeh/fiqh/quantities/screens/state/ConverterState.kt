@@ -1,6 +1,7 @@
 package net.kasasbeh.fiqh.quantities.screens.state
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -11,14 +12,14 @@ import net.kasasbeh.fiqh.quantities.unit.ScalarUnit
 
 @Composable
 fun <U : ConvertableUnit<U>> rememberConverterState(
-    school: School,
+    school: State<School>,
     units: List<ScalarUnit<U>>
 ) = remember {
     ConverterState(school, units)
 }
 
 class ConverterState<U : ConvertableUnit<U>>(
-    private val school: School,
+    private val school: State<School>,
     units: List<ScalarUnit<U>>
 ) {
 
@@ -53,7 +54,7 @@ class ConverterState<U : ConvertableUnit<U>>(
         val number = newValue.toDoubleOrNull()
         if (number != null && number >= 0) {
             firstValue = newValue
-            val converted = firstUnit.convert(secondUnit, school, number)
+            val converted = firstUnit.convert(secondUnit, school.value, number)
             secondValue = "%.3f".format(converted)
         }
     }
@@ -62,7 +63,7 @@ class ConverterState<U : ConvertableUnit<U>>(
         val number = newValue.toDoubleOrNull()
         if (number != null && number >= 0) {
             secondValue = newValue
-            val converted = secondUnit.convert(firstUnit, school, number)
+            val converted = secondUnit.convert(firstUnit, school.value, number)
             firstValue = "%.3f".format(converted)
         }
     }
@@ -71,7 +72,7 @@ class ConverterState<U : ConvertableUnit<U>>(
         _firstUnit = value
         val v = secondValue.toDoubleOrNull()
         if (v != null) {
-            firstValue = "%.3f".format(secondUnit.convert(firstUnit, school, v))
+            firstValue = "%.3f".format(secondUnit.convert(firstUnit, school.value, v))
         }
     }
 
@@ -79,7 +80,7 @@ class ConverterState<U : ConvertableUnit<U>>(
         _secondUnit = value
         val v = firstValue.toDoubleOrNull()
         if (v != null) {
-            secondValue = "%.3f".format(firstUnit.convert(secondUnit, school, v))
+            secondValue = "%.3f".format(firstUnit.convert(secondUnit, school.value, v))
         }
     }
 
