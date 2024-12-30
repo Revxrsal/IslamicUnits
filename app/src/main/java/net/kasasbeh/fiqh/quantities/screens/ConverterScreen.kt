@@ -37,16 +37,15 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import net.kasasbeh.fiqh.quantities.data.School
 import net.kasasbeh.fiqh.quantities.icons.ContentCopy
-import net.kasasbeh.fiqh.quantities.icons.Swap
 import net.kasasbeh.fiqh.quantities.repository.DataStoreRepository
-import net.kasasbeh.fiqh.quantities.unit.Converter
+import net.kasasbeh.fiqh.quantities.screens.state.rememberConverterState
+import net.kasasbeh.fiqh.quantities.unit.ConvertableUnit
 import net.kasasbeh.fiqh.quantities.unit.ScalarUnit
 import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
 
-class ConverterScreen<U : ScalarUnit>(
-    private val units: List<U>,
-    private val converter: Converter<U>,
+class ConverterScreen<U : ConvertableUnit<U>>(
+    private val units: List<ScalarUnit<U>>,
 ) : Screen, WithTopAppBar, KoinComponent {
 
     init {
@@ -55,12 +54,12 @@ class ConverterScreen<U : ScalarUnit>(
 
     @Composable
     override fun Content() {
-        var firstUnit by remember { mutableStateOf(units[0]) }
-        var secondUnit by remember { mutableStateOf(units[1]) }
-        var firstStr by remember { mutableStateOf("") }
-        var secondStr by remember { mutableStateOf("") }
         val repository: DataStoreRepository = koinInject()
         val school by repository.school.collectAsState(School.HANBALI)
+        val state = rememberConverterState(
+            school = school,
+            units = units
+        )
 
         val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -75,24 +74,12 @@ class ConverterScreen<U : ScalarUnit>(
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
-                    value = firstStr,
+                    value = state.first,
                     onValueChange = {
-                        if (it.isBlank()) firstStr = ""
-                        else {
-                            val number = it.toDoubleOrNull()
-                            if (number != null && number >= 0) {
-                                firstStr = it
-                                secondStr =
-                                    "%.4f".format(
-                                        converter.convert(
-                                            firstUnit,
-                                            secondUnit,
-                                            school,
-                                            number
-                                        )
-                                    )
-                            }
-                        }
+                        if (it.isBlank())
+                            state.clear()
+                        else
+                            state.first = it
                     },
                     modifier = Modifier
                         .weight(.85f)
@@ -101,18 +88,11 @@ class ConverterScreen<U : ScalarUnit>(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Next
                     ),
-                    label = { Text(firstUnit.localizedName()) }
+                    label = { Text(state.firstUnit.localizedName()) }
                 )
                 UnitDropDownMenu(
                     modifier = Modifier.weight(.15f),
-                    onValueChange = {
-                        val oldUnit = firstUnit
-                        firstUnit = it
-                        val v = firstStr.toDoubleOrNull()
-                        if (v != null)
-                            firstStr =
-                                "%.4f".format(converter.convert(oldUnit, firstUnit, school, v))
-                    }
+                    onValueChange = { state.firstUnit = it }
                 )
             }
 
@@ -122,41 +102,27 @@ class ConverterScreen<U : ScalarUnit>(
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
-                    value = secondStr,
+                    value = state.second,
                     onValueChange = {
-                        if (it.isBlank()) {
-                            secondStr = ""
-                            firstStr = ""
-                        } else {
-                            val number = it.toDoubleOrNull()
-                            if (number != null && number >= 0) {
-                                secondStr = it
-                                firstStr =
-                                    converter.convert(secondUnit, firstUnit, school, number)
-                                        .toString()
-                            }
-                        }
+                        if (it.isBlank())
+                            state.clear()
+                        else
+                            state.second = it
                     },
                     modifier = Modifier
                         .weight(.85f)
                         .padding(10.dp)
-                        .fillMaxWidth(), keyboardOptions = KeyboardOptions(
+                        .fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Decimal,
                         imeAction = ImeAction.Done,
                     ),
                     keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
-                    label = { Text(secondUnit.localizedName()) }
+                    label = { Text(state.secondUnit.localizedName()) }
                 )
                 UnitDropDownMenu(
                     modifier = Modifier.weight(0.15f),
-                    onValueChange = {
-                        val oldUnit = secondUnit
-                        secondUnit = it
-                        val v = firstStr.toDoubleOrNull()
-                        if (v != null)
-                            secondStr =
-                                "%.4f".format(converter.convert(oldUnit, secondUnit, school, v))
-                    }
+                    onValueChange = { state.secondUnit = it }
                 )
             }
             Row(
@@ -164,46 +130,24 @@ class ConverterScreen<U : ScalarUnit>(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
+
                 IconButton(
                     onClick = {
-                        val tempUnit = firstUnit
-                        firstUnit = secondUnit
-                        secondUnit = tempUnit
-                        val tempV = firstStr
-                        firstStr = tempV
-                        val v = tempV.toDoubleOrNull()
-                        if (v != null)
-                            secondStr =
-                                "%.4f".format(converter.convert(firstUnit, secondUnit, school, v))
-                    }
-                ) {
-                    Icon(
-                        imageVector = Swap,
-                        contentDescription = "Swap units"
-                    )
-                }
-                IconButton(
-                    onClick = {
-                        val temp = firstUnit
-                        firstUnit = secondUnit
-                        secondUnit = temp
                     }
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Favorite,
-                        contentDescription = "Swap units"
+                        contentDescription = "Favorite"
                     )
                 }
                 IconButton(
                     onClick = {
-                        val temp = firstUnit
-                        firstUnit = secondUnit
-                        secondUnit = temp
+
                     }
                 ) {
                     Icon(
                         imageVector = ContentCopy,
-                        contentDescription = "Swap units"
+                        contentDescription = "Copy value"
                     )
                 }
             }
@@ -214,7 +158,7 @@ class ConverterScreen<U : ScalarUnit>(
     @Composable
     fun UnitDropDownMenu(
         modifier: Modifier = Modifier,
-        onValueChange: (U) -> Unit
+        onValueChange: (ScalarUnit<U>) -> Unit
     ) {
         var expanded by remember { mutableStateOf(false) }
         ExposedDropdownMenuBox(
@@ -224,9 +168,8 @@ class ConverterScreen<U : ScalarUnit>(
         ) {
             IconButton(
                 onClick = {},
-                modifier = Modifier.menuAnchor(),
-
-                ) {
+                modifier = Modifier.menuAnchor()
+            ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowDropDown,
                     contentDescription = "Toggle",

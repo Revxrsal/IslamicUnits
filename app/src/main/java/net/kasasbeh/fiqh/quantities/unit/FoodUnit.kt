@@ -2,8 +2,8 @@ package net.kasasbeh.fiqh.quantities.unit
 
 import net.kasasbeh.fiqh.quantities.R
 
-object WeightUnit : ConvertableUnit<WeightUnit> {
-    override val units: List<ScalarUnit<WeightUnit>> = listOf(
+object FoodUnit : ConvertableUnit<FoodUnit> {
+    override val units: List<ScalarUnit<FoodUnit>> = listOf(
         ScalarUnit(1.0, R.string.gram),
         ScalarUnit(1000.0, R.string.kilogram),
         ScalarUnit(0.212, R.string.qirat),

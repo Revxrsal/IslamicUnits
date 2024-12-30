@@ -39,7 +39,11 @@ import net.kasasbeh.fiqh.quantities.icons.Money
 import net.kasasbeh.fiqh.quantities.icons.Ruler
 import net.kasasbeh.fiqh.quantities.icons.Volume
 import net.kasasbeh.fiqh.quantities.icons.Weight
-import net.kasasbeh.fiqh.quantities.unit.WeightConverter
+import net.kasasbeh.fiqh.quantities.unit.AreaUnit
+import net.kasasbeh.fiqh.quantities.unit.DistanceUnit
+import net.kasasbeh.fiqh.quantities.unit.FoodUnit
+import net.kasasbeh.fiqh.quantities.unit.MoneyUnit
+import net.kasasbeh.fiqh.quantities.unit.VolumeUnit
 import net.kasasbeh.fiqh.quantities.unit.WeightUnit
 
 object HomeScreen : Screen, WithTopAppBar {
@@ -67,42 +71,36 @@ object HomeScreen : Screen, WithTopAppBar {
             Section {
                 UnitCategory("Weight", Weight) {
                     ConverterScreen(
-                        converter = WeightConverter,
-                        units = WeightUnit.entries
+                        units = WeightUnit.units
                     )
                 }
                 UnitCategory("Volume", Volume) {
                     ConverterScreen(
-                        converter = WeightConverter,
-                        units = WeightUnit.entries
+                        units = VolumeUnit.units
                     )
                 }
             }
             Section {
                 UnitCategory("Distance", Ruler) {
                     ConverterScreen(
-                        converter = WeightConverter,
-                        units = WeightUnit.entries
+                        units = DistanceUnit.units
                     )
                 }
                 UnitCategory("Area", Landscape) {
                     ConverterScreen(
-                        converter = WeightConverter,
-                        units = WeightUnit.entries
+                        units = AreaUnit.units
                     )
                 }
             }
             Section {
                 UnitCategory("Money", Money) {
                     ConverterScreen(
-                        converter = WeightConverter,
-                        units = WeightUnit.entries
+                        units = MoneyUnit.units
                     )
                 }
                 UnitCategory("Food", Food) {
                     ConverterScreen(
-                        converter = WeightConverter,
-                        units = WeightUnit.entries
+                        units = FoodUnit.units
                     )
                 }
             }
