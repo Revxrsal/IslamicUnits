@@ -33,7 +33,7 @@
     <string name="volume">الحجوم</string>
     <string name="distance">المسافات</string>
     <string name="finances">الأموال</string>
-    <string name="dinar">Dinar</string>
-    <string name="gold_gram">Grams of gold</string>
-    <string name="silver_gram">Grams of silver</string>
+    <string name="dinar">دينار</string>
+    <string name="gold_gram">غرام ذهب</string>
+    <string name="silver_gram">غرام فضة</string>
 </resources>
