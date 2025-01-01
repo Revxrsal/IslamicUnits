@@ -31,4 +31,8 @@
     <string name="weight">Weight</string>
     <string name="volume">Volume</string>
     <string name="distance">Distance</string>
+    <string name="finances">Finances</string>
+    <string name="dinar">Dinar</string>
+    <string name="gold_gram">Grams of gold</string>
+    <string name="silver_gram">Grams of silver</string>
 </resources>

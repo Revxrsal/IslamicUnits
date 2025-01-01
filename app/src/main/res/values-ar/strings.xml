@@ -32,4 +32,8 @@
     <string name="weight">الأوزان</string>
     <string name="volume">الحجوم</string>
     <string name="distance">المسافات</string>
+    <string name="finances">الأموال</string>
+    <string name="dinar">Dinar</string>
+    <string name="gold_gram">Grams of gold</string>
+    <string name="silver_gram">Grams of silver</string>
 </resources>
