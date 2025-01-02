@@ -50,4 +50,13 @@
     <string name="confirm">تأكيد</string>
     <string name="no_favorites">لم تختر أي مفضّلات!</string>
     <string name="add_from_converters">أضفها عند التحويل</string>
+    <string name="common_quantities">الكميّات المهمة</string>
+    <string name="converters">التحويل</string>
+    <string name="contact_me">تواصل معي</string>
+    <string name="telegram">Telegram</string>
+    <string name="linkedin">LinkedIn</string>
+    <string name="made_by_ali">صنعه الفقير إلى الله: علي الكساسبة</string>
+    <string name="pray_for_us">لا تنسونا من صالح دعائكم 🤲</string>
+    <string name="github">GitHub</string>
+    <string name="discord">Discord</string>
 </resources>

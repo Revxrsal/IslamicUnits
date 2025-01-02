@@ -64,7 +64,7 @@ object HomeScreen : Screen, WithTopAppBar {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Converters",
+                text = stringResource(R.string.converters),
                 modifier = Modifier.padding(10.dp),
             )
             Section {
@@ -109,7 +109,7 @@ object HomeScreen : Screen, WithTopAppBar {
         val repo = koinInject<DataStoreRepository>()
         val school by repo.school.collectAsState(School.HANBALI)
         Text(
-            text = "Common quantities",
+            text = stringResource(R.string.common_quantities),
             modifier = Modifier.padding(10.dp),
         )
         FlowRow(

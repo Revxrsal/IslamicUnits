@@ -49,4 +49,13 @@
     <string name="confirm">Confirm</string>
     <string name="no_favorites">There aren\'t any favorites here!</string>
     <string name="add_from_converters">Add some in the converters!</string>
+    <string name="common_quantities">Common quantities</string>
+    <string name="converters">Converters</string>
+    <string name="contact_me">Contact me</string>
+    <string name="telegram">Telegram</string>
+    <string name="linkedin">LinkedIn</string>
+    <string name="made_by_ali">Made by Ali Al-Kasasbeh</string>
+    <string name="pray_for_us">Do not forget us in your righteous prayers 🤲</string>
+    <string name="github">GitHub</string>
+    <string name="discord">Discord</string>
 </resources>
