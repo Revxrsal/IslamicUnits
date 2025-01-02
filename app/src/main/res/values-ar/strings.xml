@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">الكميات الفقهية</string>
+    <string name="app_name">الوحدات الفقهية</string>
     <string name="hanbali">حنبلي</string>
     <string name="shafii">شافعي</string>
     <string name="maliki">مالكي</string>
@@ -36,4 +36,18 @@
     <string name="dinar">دينار</string>
     <string name="gold_gram">غرام ذهب</string>
     <string name="silver_gram">غرام فضة</string>
+    <string name="favorites">المفضّل</string>
+    <string name="nisab_of_zakat_gold">نصاب الذهب</string>
+    <string name="nisab_of_zakat_silver">نصاب الفضة</string>
+    <string name="nisab_of_zakat_agricultural">نصاب الزروع والثمار</string>
+    <string name="travel_distance">مسافة السفر</string>
+    <string name="fasting_fidya">فدية الإفطار في رمضان للعجز</string>
+    <string name="zakat_al_fitr">زكاة الفطر</string>
+    <string name="large_water">الماء الكثير</string>
+    <string name="intercrouse_menstruation">كفارة الجماع في الحيض</string>
+    <string name="breaking_oath">كفارة اليمين المنعقدة</string>
+    <string name="dismiss">إلغاء</string>
+    <string name="confirm">تأكيد</string>
+    <string name="no_favorites">لم تختر أي مفضّلات!</string>
+    <string name="add_from_converters">أضفها عند التحويل</string>
 </resources>

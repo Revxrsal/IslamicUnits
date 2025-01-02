@@ -1,39 +1,48 @@
 package net.kasasbeh.islamicunits.screens.state
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisallowComposableCalls
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import net.kasasbeh.islamicunits.data.School
-import net.kasasbeh.islamicunits.unit.ConvertableUnit
+import net.kasasbeh.islamicunits.data.room.Favorite
 import net.kasasbeh.islamicunits.unit.ScalarUnit
 
 @Composable
-fun <U : ConvertableUnit<U>> rememberConverterState(
+fun rememberConverterState(
     school: State<School>,
-    units: List<ScalarUnit<U>>
+    units: List<ScalarUnit>,
+    firstValue: String = "",
+    secondValue: String = "",
+    firstUnit: ScalarUnit = units[0],
+    secondUnit: ScalarUnit = units[1]
 ) = remember {
-    ConverterState(school, units)
+    ConverterState(school, units, firstValue, secondValue, firstUnit, secondUnit)
 }
 
-class ConverterState<U : ConvertableUnit<U>>(
+class ConverterState(
     private val school: State<School>,
-    units: List<ScalarUnit<U>>
+    units: List<ScalarUnit>,
+    firstValue: String,
+    secondValue: String,
+    firstUnit: ScalarUnit,
+    secondUnit: ScalarUnit
 ) {
 
-    private var firstValue by mutableStateOf("")
-    private var secondValue by mutableStateOf("")
+    private var firstValue by mutableStateOf(firstValue)
+    private var secondValue by mutableStateOf(secondValue)
 
-    private var _firstUnit by mutableStateOf(units[0])
-    private var _secondUnit by mutableStateOf(units[1])
+    private var _firstUnit by mutableStateOf(firstUnit)
+    private var _secondUnit by mutableStateOf(secondUnit)
 
-    var firstUnit: ScalarUnit<U>
+    var firstUnit: ScalarUnit
         get() = _firstUnit
         set(value) = updateFirstUnit(value)
 
-    var secondUnit: ScalarUnit<U>
+    var secondUnit: ScalarUnit
         get() = _secondUnit
         set(value) = updateSecondUnit(value)
 
@@ -68,7 +77,7 @@ class ConverterState<U : ConvertableUnit<U>>(
         }
     }
 
-    private fun updateFirstUnit(value: ScalarUnit<U>) {
+    private fun updateFirstUnit(value: ScalarUnit) {
         _firstUnit = value
         val v = secondValue.toDoubleOrNull()
         if (v != null) {
@@ -76,12 +85,22 @@ class ConverterState<U : ConvertableUnit<U>>(
         }
     }
 
-    private fun updateSecondUnit(value: ScalarUnit<U>) {
+    private fun updateSecondUnit(value: ScalarUnit) {
         _secondUnit = value
         val v = firstValue.toDoubleOrNull()
         if (v != null) {
             secondValue = "%.3f".format(firstUnit.convert(secondUnit, school.value, v))
         }
+    }
+
+    @Composable
+    inline fun <T> rememberForState(
+        favorites: List<Favorite>,
+        crossinline calculation: @DisallowComposableCalls () -> T
+    ): T = remember(
+        first, second, firstUnit, secondUnit, favorites
+    ) {
+        calculation()
     }
 
     init {

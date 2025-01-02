@@ -1,3 +1,6 @@
+import org.gradle.kotlin.dsl.android
+import org.gradle.kotlin.dsl.room
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -50,6 +53,7 @@ android {
 
 dependencies {
     implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -59,7 +63,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
     implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.koin)

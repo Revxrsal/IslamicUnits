@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Islamic Quantities</string>
+    <string name="app_name">Islamic Units</string>
     <string name="hanbali">Hanbali</string>
     <string name="shafii">Shafi\'i</string>
     <string name="maliki">Maliki</string>
@@ -35,4 +35,18 @@
     <string name="dinar">Dinar</string>
     <string name="gold_gram">Grams of gold</string>
     <string name="silver_gram">Grams of silver</string>
+    <string name="favorites">Favorites</string>
+    <string name="nisab_of_zakat_gold">Nisab for gold</string>
+    <string name="nisab_of_zakat_silver">Nisab for silver</string>
+    <string name="nisab_of_zakat_agricultural">Nisab for agricultural produce</string>
+    <string name="travel_distance">Travel distance</string>
+    <string name="fasting_fidya">"Fidya of missed fasting "</string>
+    <string name="zakat_al_fitr">Zakat Al-Fitr</string>
+    <string name="large_water">Large amount of water</string>
+    <string name="intercrouse_menstruation">Kaffara for intercrouse during menstruation</string>
+    <string name="breaking_oath">Kaffara for breaking an oath</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="confirm">Confirm</string>
+    <string name="no_favorites">There aren\'t any favorites here!</string>
+    <string name="add_from_converters">Add some in the converters!</string>
 </resources>

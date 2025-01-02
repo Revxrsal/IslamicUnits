@@ -10,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -36,20 +35,44 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import net.kasasbeh.islamicunits.FavoritesViewModel
+import net.kasasbeh.islamicunits.components.CopyButton
+import net.kasasbeh.islamicunits.components.favorites.FavoriteDialog
+import net.kasasbeh.islamicunits.components.favorites.FavoriteIconButton
+import net.kasasbeh.islamicunits.components.favorites.FavoritesDeleteDialog
 import net.kasasbeh.islamicunits.data.School
-import net.kasasbeh.islamicunits.icons.ContentCopy
+import net.kasasbeh.islamicunits.data.room.Favorite
 import net.kasasbeh.islamicunits.repository.DataStoreRepository
+import net.kasasbeh.islamicunits.screens.state.ConverterState
 import net.kasasbeh.islamicunits.screens.state.rememberConverterState
-import net.kasasbeh.islamicunits.unit.ConvertableUnit
+import net.kasasbeh.islamicunits.unit.ConvertibleUnit
 import net.kasasbeh.islamicunits.unit.ScalarUnit
+import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import org.koin.core.component.KoinComponent
 
-class ConverterScreen<U : ConvertableUnit<U>>(
+class ConverterScreen(
     private val title: String,
-    unit: ConvertableUnit<U>,
+    private val units: List<ScalarUnit>,
+    private val firstValue: String = "",
+    private val secondValue: String = "",
+    private val firstUnit: ScalarUnit = units[0],
+    private val secondUnit: ScalarUnit = units[1]
 ) : Screen, WithTopAppBar, KoinComponent {
-    private val units = unit.units
+
+    constructor(title: String, unit: ConvertibleUnit) : this(
+        title = title,
+        units = unit.units
+    )
+
+    constructor(title: String, units: List<ScalarUnit>, favorite: Favorite) : this(
+        title = title,
+        units = units,
+        firstValue = favorite.firstValue.toString(),
+        secondValue = favorite.secondValue.toString(),
+        firstUnit = favorite.firstUnit,
+        secondUnit = favorite.secondUnit
+    )
 
     init {
         require(units.size >= 2) { "There must be at least two units to convert between" }
@@ -61,7 +84,11 @@ class ConverterScreen<U : ConvertableUnit<U>>(
         val school = repository.school.collectAsState(School.HANBALI)
         val state = rememberConverterState(
             school = school,
-            units = units
+            units = units,
+            firstValue = firstValue.toString(),
+            secondValue = secondValue.toString(),
+            firstUnit = firstUnit,
+            secondUnit = secondUnit
         )
 
         val keyboardController = LocalSoftwareKeyboardController.current
@@ -133,35 +160,66 @@ class ConverterScreen<U : ConvertableUnit<U>>(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-
-                IconButton(
-                    onClick = {
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Favorite,
-                        contentDescription = "Favorite"
-                    )
-                }
-                IconButton(
-                    onClick = {
-
-                    }
-                ) {
-                    Icon(
-                        imageVector = ContentCopy,
-                        contentDescription = "Copy value"
-                    )
-                }
+                FavoriteButton(
+                    state = state
+                )
+                CopyButton(
+                    enabled = state.first.isNotEmpty() && state.second.isNotEmpty(),
+                    text = "${state.first} ${state.firstUnit.localizedName()} = ${state.second} ${state.secondUnit.localizedName()}"
+                )
             }
         }
+    }
+
+    @Composable
+    fun FavoriteButton(state: ConverterState) {
+        var showDialog by remember { mutableStateOf(false) }
+        val favoritesViewModel = koinViewModel<FavoritesViewModel>()
+        val favorites by favoritesViewModel.favorites.collectAsState()
+        val asFavorite = state.rememberForState(favorites) {
+            favorites.firstOrNull { state.matches(it) }
+        }
+        var showDelete by remember { mutableStateOf(false) }
+        if (showDelete && asFavorite != null) {
+            FavoritesDeleteDialog(
+                onDismissRequest = { showDelete = false },
+                onConfirm = { favoritesViewModel.removeFavorite(asFavorite) },
+                favorite = asFavorite
+            )
+        }
+        if (showDialog) {
+            FavoriteDialog(
+                onSubmit = { label ->
+                    favoritesViewModel.addFavorite(
+                        favorite = Favorite(
+                            name = label,
+                            firstUnit = state.firstUnit,
+                            firstValue = state.first.toDouble(),
+                            secondUnit = state.secondUnit,
+                            secondValue = state.second.toDouble(),
+                        )
+                    )
+                },
+                onDismissRequest = { showDialog = false }
+            )
+        }
+        FavoriteIconButton(
+            onClick = {
+                if (asFavorite != null)
+                    showDelete = true
+                else
+                    showDialog = true
+            },
+            isFavorite = asFavorite != null,
+            enabled = state.first.isNotEmpty() && state.second.isNotEmpty()
+        )
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun UnitDropDownMenu(
         modifier: Modifier = Modifier,
-        onValueChange: (ScalarUnit<U>) -> Unit
+        onValueChange: (ScalarUnit) -> Unit
     ) {
         var expanded by remember { mutableStateOf(false) }
         ExposedDropdownMenuBox(
@@ -205,7 +263,7 @@ class ConverterScreen<U : ConvertableUnit<U>>(
     override fun ScreenTopAppBar() {
         val navigator = LocalNavigator.currentOrThrow
         TopAppBar(title = { Text(title) }, navigationIcon = {
-            IconButton(onClick = { navigator.push(HomeScreen) }) {
+            IconButton(onClick = { navigator.pop() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Default.ArrowBack,
                     contentDescription = "Back"
@@ -213,4 +271,11 @@ class ConverterScreen<U : ConvertableUnit<U>>(
             }
         })
     }
+
+    fun ConverterState.matches(favorite: Favorite): Boolean {
+        val first = first.toDoubleOrNull() ?: return false
+        val second = second.toDoubleOrNull() ?: return false
+        return favorite.matches(first, second, firstUnit, secondUnit)
+    }
+
 }

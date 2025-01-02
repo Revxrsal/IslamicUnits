@@ -14,7 +14,7 @@ import net.kasasbeh.islamicunits.data.schoolOf
 import net.kasasbeh.islamicunits.ui.theme.isSystemUsingDarkTheme
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-    name = "fiqh-quantities-preferences"
+    name = "islamic-units-preferences"
 )
 
 private val DARK_THEME = booleanPreferencesKey("dark-theme")
